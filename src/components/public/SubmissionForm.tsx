@@ -1,6 +1,6 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { submissionSchema, type SubmissionInput } from '@/lib/validations/submission.schema'
 import { useSubmissionStore } from '@/stores/submissionStore'
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Label } from '@/components/ui/Label'
+import { PhoneInput } from '@/components/ui/PhoneInput'
 import { SuccessMessage } from './SuccessMessage'
 import { GENDER_OPTIONS, AGE_OPTIONS, COUNTRY_OPTIONS } from '@/lib/utils/formOptions'
 
@@ -23,6 +24,7 @@ export function SubmissionForm() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<SubmissionInput>({
     resolver: zodResolver(submissionSchema),
@@ -78,12 +80,17 @@ export function SubmissionForm() {
       {/* Mobile */}
       <div>
         <Label htmlFor="mobile" required>Mobile number</Label>
-        <Input
-          id="mobile"
-          type="tel"
-          placeholder="+1 555 000 0000"
-          error={errors.mobile?.message}
-          {...register('mobile')}
+        <Controller
+          name="mobile"
+          control={control}
+          render={({ field }) => (
+            <PhoneInput
+              id="mobile"
+              value={field.value}
+              onChange={field.onChange}
+              error={errors.mobile?.message}
+            />
+          )}
         />
         <FieldError message={errors.mobile?.message} />
       </div>

@@ -4,7 +4,7 @@ export interface Submission {
   last_name: string
   email: string
   mobile: string
-  gender: 'male' | 'female' | 'non-binary' | 'prefer-not-to-say'
+  gender: 'male' | 'female'
   age_range: '18-24' | '25-34' | '35-44' | '45-54' | '55+'
   country: string
   created_at: string

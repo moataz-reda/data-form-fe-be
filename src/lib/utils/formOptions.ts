@@ -11,16 +11,3 @@ export const AGE_OPTIONS = [
   { value: '55+', label: '55+' },
 ] as const
 
-export const COUNTRY_OPTIONS = [
-  { value: 'US', label: 'United States' },
-  { value: 'GB', label: 'United Kingdom' },
-  { value: 'EG', label: 'Egypt' },
-  { value: 'SA', label: 'Saudi Arabia' },
-  { value: 'AE', label: 'United Arab Emirates' },
-  { value: 'CA', label: 'Canada' },
-  { value: 'AU', label: 'Australia' },
-  { value: 'DE', label: 'Germany' },
-  { value: 'FR', label: 'France' },
-  { value: 'IN', label: 'India' },
-  { value: 'Other', label: 'Other' },
-] as const

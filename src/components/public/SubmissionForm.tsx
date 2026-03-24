@@ -9,8 +9,9 @@ import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Label } from '@/components/ui/Label'
 import { PhoneInput } from '@/components/ui/PhoneInput'
+import { CountrySelect } from '@/components/ui/CountrySelect'
 import { SuccessMessage } from './SuccessMessage'
-import { GENDER_OPTIONS, AGE_OPTIONS, COUNTRY_OPTIONS } from '@/lib/utils/formOptions'
+import { GENDER_OPTIONS, AGE_OPTIONS } from '@/lib/utils/formOptions'
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
@@ -124,12 +125,17 @@ export function SubmissionForm() {
       {/* Country */}
       <div>
         <Label htmlFor="country" required>Country</Label>
-        <Select
-          id="country"
-          placeholder="Select country"
-          options={COUNTRY_OPTIONS}
-          error={errors.country?.message}
-          {...register('country')}
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <CountrySelect
+              id="country"
+              value={field.value}
+              onChange={field.onChange}
+              error={errors.country?.message}
+            />
+          )}
         />
         <FieldError message={errors.country?.message} />
       </div>

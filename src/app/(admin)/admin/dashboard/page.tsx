@@ -1,6 +1,7 @@
 import { getDashboardStats } from '@/actions/adminActions'
 import { DashboardClient } from '@/components/admin/DashboardClient'
 import { LogoutButton } from '@/components/admin/LogoutButton'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 export const metadata = {
   title: 'Admin Dashboard',
@@ -10,9 +11,9 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Top bar */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
@@ -30,11 +31,14 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <span className="text-base font-semibold text-gray-900">
+            <span className="text-base font-semibold text-gray-900 dark:text-white">
               Admin Dashboard
             </span>
           </div>
-          <LogoutButton />
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <LogoutButton />
+          </div>
         </div>
       </header>
 
@@ -42,28 +46,10 @@ export default async function DashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stat summary row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-          <StatCard
-            label="Total Submissions"
-            value={stats.rows.length}
-            color="indigo"
-          />
-          <StatCard
-            label="Unique Countries"
-            value={new Set(stats.rows.map((r) => r.country)).size}
-            color="purple"
-          />
-          <StatCard
-            label="Today"
-            value={
-              stats.dayMap[new Date().toISOString().slice(0, 10)] ?? 0
-            }
-            color="emerald"
-          />
-          <StatCard
-            label="This Week"
-            value={getThisWeekCount(stats.dayMap)}
-            color="amber"
-          />
+          <StatCard label="Total Submissions" value={stats.rows.length} color="indigo" />
+          <StatCard label="Unique Countries" value={new Set(stats.rows.map((r) => r.country)).size} color="purple" />
+          <StatCard label="Today" value={stats.dayMap[new Date().toISOString().slice(0, 10)] ?? 0} color="emerald" />
+          <StatCard label="This Week" value={getThisWeekCount(stats.dayMap)} color="amber" />
         </div>
 
         <DashboardClient stats={stats} />
@@ -92,20 +78,18 @@ function StatCard({
   color: 'indigo' | 'purple' | 'emerald' | 'amber'
 }) {
   const colors = {
-    indigo: 'bg-indigo-50 text-indigo-700',
-    purple: 'bg-purple-50 text-purple-700',
-    emerald: 'bg-emerald-50 text-emerald-700',
-    amber: 'bg-amber-50 text-amber-700',
+    indigo: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300',
+    purple: 'bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
+    emerald: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300',
+    amber: 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-5">
+      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
         {label}
       </p>
-      <p
-        className={`text-3xl font-bold rounded-lg inline-block px-1 ${colors[color]}`}
-      >
+      <p className={`text-3xl font-bold rounded-lg inline-block px-1 ${colors[color]}`}>
         {value}
       </p>
     </div>

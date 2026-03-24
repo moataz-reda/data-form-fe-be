@@ -22,7 +22,7 @@ export function SubmissionsTable() {
 
   if (submissions.length === 0) {
     return (
-      <div className="py-16 text-center text-sm text-gray-400">
+      <div className="py-16 text-center text-sm text-gray-400 dark:text-gray-500">
         No submissions yet
       </div>
     )
@@ -32,42 +32,40 @@ export function SubmissionsTable() {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-gray-100">
-            {['Name', 'Email', 'Mobile', 'Gender', 'Age Range', 'Country', 'Date'].map(
-              (col) => (
-                <th
-                  key={col}
-                  className="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                >
-                  {col}
-                </th>
-              )
-            )}
+          <tr className="border-b border-gray-100 dark:border-gray-800">
+            {['Name', 'Email', 'Mobile', 'Gender', 'Age Range', 'Country', 'Date'].map((col) => (
+              <th
+                key={col}
+                className="py-3 px-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap"
+              >
+                {col}
+              </th>
+            ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-50">
+        <tbody className="divide-y divide-gray-50 dark:divide-gray-800">
           {submissions.map((row) => (
             <tr
               key={row.id}
-              className="hover:bg-gray-50/70 transition-colors duration-100"
+              className="hover:bg-gray-50/70 dark:hover:bg-gray-800/50 transition-colors duration-100"
             >
-              <td className="py-3.5 px-4 font-medium text-gray-900 whitespace-nowrap">
+              <td className="py-3.5 px-4 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">
                 {row.first_name} {row.last_name}
               </td>
-              <td className="py-3.5 px-4 text-gray-600">{row.email}</td>
-              <td className="py-3.5 px-4 text-gray-600 whitespace-nowrap">
+              <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400">{row.email}</td>
+              <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
                 {row.mobile}
               </td>
               <td className="py-3.5 px-4">
-                <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700">
+                <span className="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-950 px-2.5 py-0.5 text-xs font-medium text-indigo-700 dark:text-indigo-300">
                   {GENDER_LABELS[row.gender] ?? row.gender}
                 </span>
               </td>
-              <td className="py-3.5 px-4 text-gray-600 whitespace-nowrap">
+              <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
                 {AGE_LABELS[row.age_range] ?? row.age_range}
               </td>
-              <td className="py-3.5 px-4 text-gray-600">{row.country}</td>
-              <td className="py-3.5 px-4 text-gray-400 whitespace-nowrap text-xs">
+              <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400">{row.country}</td>
+              <td className="py-3.5 px-4 text-gray-400 dark:text-gray-500 whitespace-nowrap text-xs">
                 {new Date(row.created_at).toLocaleDateString('en-GB', {
                   day: '2-digit',
                   month: 'short',

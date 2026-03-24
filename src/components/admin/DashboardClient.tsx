@@ -20,8 +20,8 @@ function ChartCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-      <h3 className="text-sm font-semibold text-gray-700 mb-4">{title}</h3>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-6">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">{title}</h3>
       {children}
     </div>
   )
@@ -52,11 +52,11 @@ export function DashboardClient({ stats }: Props) {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h3 className="text-sm font-semibold text-gray-700">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
             All Submissions
-            <span className="ml-2 rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
+            <span className="ml-2 rounded-full bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 text-xs font-medium text-indigo-600 dark:text-indigo-400">
               {stats.rows.length}
             </span>
           </h3>

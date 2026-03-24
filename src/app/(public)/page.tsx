@@ -13,7 +13,7 @@ export default function HomePage() {
       <div className="flex justify-end mb-4">
         <Link
           href="/admin/login"
-          className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 shadow-sm hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-md transition-all duration-200"
+          className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 shadow-sm hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-md transition-all duration-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-indigo-500 dark:hover:bg-indigo-950 dark:hover:text-indigo-400"
         >
           <svg
             className="h-4 w-4"
@@ -42,7 +42,7 @@ export default function HomePage() {
       </div>
 
       {/* Card */}
-      <div className="bg-white rounded-2xl shadow-xl shadow-indigo-100/50 p-8 border border-indigo-50">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl shadow-indigo-100/50 dark:shadow-black/30 p-8 border border-indigo-50 dark:border-gray-700">
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 shadow-lg">
@@ -60,8 +60,8 @@ export default function HomePage() {
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Register</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Register</h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Please fill in the form below to complete your registration.
           </p>
         </div>

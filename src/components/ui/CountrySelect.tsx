@@ -1,10 +1,10 @@
 'use client'
 
 import { useId } from 'react'
+import { useTheme } from 'next-themes'
 import ReactSelect, { type StylesConfig, type SingleValue } from 'react-select'
 import { getCountries } from 'react-phone-number-input'
 import labels from 'react-phone-number-input/locale/en.json'
-import { cn } from '@/lib/utils'
 
 interface CountryOption {
   value: string
@@ -29,74 +29,90 @@ const ALL_COUNTRIES: CountryOption[] = getCountries()
 const formatOptionLabel = ({ flag, label }: CountryOption) => (
   <span className="flex items-center gap-2.5">
     <span className="text-lg leading-none">{flag}</span>
-    <span className="text-sm text-gray-900">{label}</span>
+    <span className="text-sm">{label}</span>
   </span>
 )
 
-const customStyles: StylesConfig<CountryOption, false> = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: '42px',
-    borderRadius: '0.75rem',
-    borderColor: state.isFocused ? 'transparent' : '#d1d5db',
-    boxShadow: state.isFocused ? '0 0 0 2px #6366f1' : 'none',
-    backgroundColor: '#fff',
-    paddingLeft: '4px',
-    cursor: 'pointer',
-    '&:hover': { borderColor: '#9ca3af' },
-    transition: 'all 150ms',
-  }),
-  menu: (base) => ({
-    ...base,
-    borderRadius: '0.75rem',
-    boxShadow: '0 10px 40px -8px rgba(0,0,0,0.15)',
-    border: '1px solid #e5e7eb',
-    overflow: 'hidden',
-    zIndex: 50,
-  }),
-  menuList: (base) => ({
-    ...base,
-    padding: '4px',
-    maxHeight: '220px',
-  }),
-  option: (base, state) => ({
-    ...base,
-    borderRadius: '0.5rem',
-    backgroundColor: state.isSelected
-      ? '#6366f1'
-      : state.isFocused
-      ? '#eef2ff'
-      : 'transparent',
-    color: state.isSelected ? '#fff' : '#111827',
-    cursor: 'pointer',
-    padding: '8px 10px',
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: '#9ca3af',
-    fontSize: '0.875rem',
-  }),
-  singleValue: (base) => ({
-    ...base,
-    color: '#111827',
-  }),
-  input: (base) => ({
-    ...base,
-    fontSize: '0.875rem',
-    color: '#111827',
-  }),
-  indicatorSeparator: () => ({ display: 'none' }),
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    color: state.isFocused ? '#6366f1' : '#9ca3af',
-    '&:hover': { color: '#6366f1' },
-    transition: 'color 150ms',
-  }),
-  clearIndicator: (base) => ({
-    ...base,
-    color: '#9ca3af',
-    '&:hover': { color: '#ef4444' },
-  }),
+function buildStyles(dark: boolean, error: boolean): StylesConfig<CountryOption, false> {
+  const bg = dark ? '#1f2937' : '#ffffff'          // gray-800 / white
+  const bgMenu = dark ? '#1f2937' : '#ffffff'
+  const border = error ? '#f87171' : dark ? '#4b5563' : '#d1d5db'
+  const borderHover = dark ? '#6b7280' : '#9ca3af'
+  const borderFocus = error ? '#f87171' : '#6366f1'
+  const shadow = error ? '0 0 0 2px #f87171' : '0 0 0 2px #6366f1'
+  const text = dark ? '#f3f4f6' : '#111827'
+  const placeholder = dark ? '#6b7280' : '#9ca3af'
+  const optionFocusBg = dark ? '#312e81' : '#eef2ff'
+  const menuBorder = dark ? '#374151' : '#e5e7eb'
+
+  return {
+    control: (base, state) => ({
+      ...base,
+      minHeight: '42px',
+      borderRadius: '0.75rem',
+      borderColor: state.isFocused ? 'transparent' : border,
+      boxShadow: state.isFocused ? shadow : 'none',
+      backgroundColor: bg,
+      paddingLeft: '4px',
+      cursor: 'pointer',
+      '&:hover': { borderColor: state.isFocused ? 'transparent' : borderHover },
+      transition: 'all 150ms',
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: '0.75rem',
+      boxShadow: dark
+        ? '0 10px 40px -8px rgba(0,0,0,0.6)'
+        : '0 10px 40px -8px rgba(0,0,0,0.15)',
+      border: `1px solid ${menuBorder}`,
+      backgroundColor: bgMenu,
+      overflow: 'hidden',
+      zIndex: 50,
+    }),
+    menuList: (base) => ({
+      ...base,
+      padding: '4px',
+      maxHeight: '220px',
+    }),
+    option: (base, state) => ({
+      ...base,
+      borderRadius: '0.5rem',
+      backgroundColor: state.isSelected
+        ? '#6366f1'
+        : state.isFocused
+        ? optionFocusBg
+        : 'transparent',
+      color: state.isSelected ? '#fff' : text,
+      cursor: 'pointer',
+      padding: '8px 10px',
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: placeholder,
+      fontSize: '0.875rem',
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: text,
+    }),
+    input: (base) => ({
+      ...base,
+      fontSize: '0.875rem',
+      color: text,
+    }),
+    indicatorSeparator: () => ({ display: 'none' }),
+    dropdownIndicator: (base, state) => ({
+      ...base,
+      color: state.isFocused ? borderFocus : placeholder,
+      '&:hover': { color: borderFocus },
+      transition: 'color 150ms',
+    }),
+    clearIndicator: (base) => ({
+      ...base,
+      color: placeholder,
+      '&:hover': { color: '#ef4444' },
+    }),
+  }
 }
 
 interface CountrySelectProps {
@@ -108,16 +124,9 @@ interface CountrySelectProps {
 
 export function CountrySelect({ value, onChange, error, id }: CountrySelectProps) {
   const instanceId = useId()
+  const { resolvedTheme } = useTheme()
+  const dark = resolvedTheme === 'dark'
   const selected = ALL_COUNTRIES.find((c) => c.value === value) ?? null
-
-  const errorStyles: StylesConfig<CountryOption, false> = {
-    ...customStyles,
-    control: (base, state) => ({
-      ...(customStyles.control?.(base, state) ?? base),
-      borderColor: state.isFocused ? 'transparent' : '#f87171',
-      boxShadow: state.isFocused ? '0 0 0 2px #f87171' : 'none',
-    }),
-  }
 
   return (
     <ReactSelect<CountryOption>
@@ -127,7 +136,7 @@ export function CountrySelect({ value, onChange, error, id }: CountrySelectProps
       value={selected}
       onChange={(opt: SingleValue<CountryOption>) => onChange(opt?.value ?? '')}
       formatOptionLabel={formatOptionLabel}
-      styles={error ? errorStyles : customStyles}
+      styles={buildStyles(dark, !!error)}
       placeholder="Search country..."
       isClearable
       isSearchable

@@ -1,11 +1,14 @@
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
-      {children}
-    </main>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 flex flex-col">
+      <header className="flex justify-end p-4">
+        <ThemeToggle />
+      </header>
+      <main className="flex-1 flex items-center justify-center px-4 pb-8">
+        {children}
+      </main>
+    </div>
   )
 }

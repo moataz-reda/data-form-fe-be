@@ -39,7 +39,7 @@ export function LoginForm() {
     })
 
     if (error) {
-      setServerError(error.message)
+      setServerError('Invalid email or password.')
       setIsLoading(false)
       return
     }

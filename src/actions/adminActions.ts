@@ -3,14 +3,21 @@
 import { createClient } from '@/lib/supabase/server'
 import type { DashboardStats, Submission } from '@/types'
 
-export async function getSubmissions(): Promise<Submission[]> {
+async function requireAuth() {
   const supabase = await createClient()
+  const { data: { user }, error } = await supabase.auth.getUser()
+  if (error || !user) throw new Error('Unauthorized')
+  return supabase
+}
+
+export async function getSubmissions(): Promise<Submission[]> {
+  const supabase = await requireAuth()
   const { data, error } = await supabase
     .from('submissions')
     .select('*')
     .order('created_at', { ascending: false })
 
-  if (error) throw new Error(error.message)
+  if (error) throw new Error('Failed to fetch submissions')
   return data as Submission[]
 }
 
@@ -27,7 +34,6 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     return acc
   }, {})
 
-  // Submissions per day for the last 30 days
   const dayMap = rows.reduce<Record<string, number>>((acc, r) => {
     const day = r.created_at.slice(0, 10)
     acc[day] = (acc[day] ?? 0) + 1

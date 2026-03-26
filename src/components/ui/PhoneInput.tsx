@@ -2,6 +2,7 @@
 
 import { forwardRef } from 'react'
 import PhoneInputPrimitive, { type Country } from 'react-phone-number-input'
+import flags from 'react-phone-number-input/flags'
 import 'react-phone-number-input/style.css'
 import { cn } from '@/lib/utils'
 
@@ -18,6 +19,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     return (
       <PhoneInputPrimitive
         international
+        flags={flags}
         defaultCountry={defaultCountry}
         value={value}
         onChange={onChange}
